@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Armin · OG Developer</title>
+    <meta name="description" content="Armin-Dev · Developer & Editor">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --card: #141414;
+            --border: #2a2a2a;
+            --gold: #f5d742;
+            --gold-dim: #c4a82a;
+            --cream: #e8e0d0;
+            --cream-dim: #b0a890;
+            --silver: #b0b0b0;
+            --text: #d4d4d4;
+            --muted: #666;
+            --glow: rgba(245, 215, 66, 0.15);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+         
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-weight: 300;
+            position: relative;
+        }
+        
+        /* Background glow effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(245, 215, 66, 0.03) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        ::selection { background: var(--gold); color: #0a0a0a; }
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 4px; }
+        
+        /* ===== START SCREEN ===== */
+        #start-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100vh;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        #start-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .start-card {
+            background: rgba(20,20,20,0.95);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px 32px;
+            text-align: center;
+            width: 290px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(245,215,66,0.05);
+            animation: fadeInUp 0.8s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .start-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at center, rgba(245,215,66,0.03) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .start-card .logo {
+            font-size: 52px;
+            letter-spacing: 6px;
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 4px;
+            text-shadow: 0 0 30px rgba(245,215,66,0.2);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .start-card .sub {
+            font-size: 11px;
+            color: var(--muted);
+            margin-bottom: 32px;
+            letter-spacing: 3px;
+            font-weight: 300;
+        }
+        .start-btn {
+            background: transparent;
+            border: 1.5px solid var(--gold);
+            color: var(--gold);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 12px 36px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            letter-spacing: 3px;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+        .start-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gold);
+            transform: translateX(-100%);
+            transition: transform 0.4s ease;
+            z-index: -1;
+        }
+        .start-btn:hover::before {
+            transform: translateX(0);
+        }
+        .start-btn:hover {
+            color: #0a0a0a;
+            box-shadow: 0 0 30px rgba(245,215,66,0.2);
+        }
+        .start-hint {
+            font-size: 10px;
+            color: #333;
+            font-family: monospace;
+            margin-top: 20px;
+            border-top: 1px solid #1a1a1a;
+            padding-top: 16px;
+            letter-spacing: 1px;
+        }
+        .start-hint span { color: var(--gold); opacity: 0.6; }
+        
+        /* ===== BOOT SCREEN ===== */
+        #boot-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100vh;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--muted);
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+            font-weight: 400;
+            opacity: 0;
+            visibility: hidden;
+        }
+        #boot-screen.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        #boot-screen .boot-content { text-align: left; min-width: 280px; }
+        #boot-screen .line { 
+            margin: 4px 0; 
+            opacity: 0; 
+            animation: bootLine 0.5s ease forwards; 
+        }
+        #boot-screen .line:nth-child(1){animation-delay:0.2s}
+        #boot-screen .line:nth-child(2){animation-delay:0.6s}
+        #boot-screen .line:nth-child(3){animation-delay:1.0s}
+        #boot-screen .line:nth-child(4){animation-delay:1.5s;color:var(--gold);}
+        #boot-screen .line:nth-child(5){animation-delay:2.0s}
+        #boot-screen .line:nth-child(6){animation-delay:2.5s;color:var(--gold);}
+        #boot-screen .prompt { color: var(--gold); opacity: 0.7; }
+        #boot-screen .cursor { animation: blink 1s infinite; }
+        @keyframes bootLine {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+        
+        /* ===== MAIN CONTENT ===== */
+        #main-content {
+            padding: 20px 16px 40px;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            position: relative;
+            z-index: 1;
+        }
+        #main-content.visible { opacity: 1; }
+        
+        /* ===== BANNER ===== */
+        .banner-wrap {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            background: linear-gradient(135deg, rgba(245,215,66,0.05), transparent);
+            padding: 4px;
+        }
+        .banner-wrap::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            padding: 1.5px;
+            background: linear-gradient(135deg, var(--gold), transparent 60%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        .banner-wrap.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .banner {
+            width: 100%;
+            border-radius: 14px;
+            display: block;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            background: var(--card);
+            filter: grayscale(30%) contrast(1.1);
+            transition: filter 0.5s ease;
+        }
+        .banner:hover {
+            filter: grayscale(0%) contrast(1.2);
+        }
+        
+        /* ===== HERO ===== */
+        .hero-tagline {
+            text-align: center;
+            font-size: 12px;
+            color: var(--muted);
+            letter-spacing: 3px;
+            margin-bottom: 28px;
+            font-weight: 300;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s;
+        }
+        .hero-tagline span {
+            color: var(--gold);
+            opacity: 0.7;
+        }
+        .hero-tagline.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* ===== SECTIONS ===== */
+        .section {
+            margin-bottom: 28px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .section.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .section:nth-child(1) { transition-delay: 0s; }
+        .section:nth-child(2) { transition-delay: 0.1s; }
+        .section:nth-child(3) { transition-delay: 0.2s; }
+        .section:nth-child(4) { transition-delay: 0.3s; }
+        
+        .section-title {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--muted);
+            margin-bottom: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border), transparent);
+        }
+        
+        /* ===== ABOUT ===== */
+        .card-about {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+        .card-about:hover {
+            border-color: rgba(245,215,66,0.2);
+        }
+        .card-about::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--gold), transparent);
+            opacity: 0.6;
+        }
+        .card-about p {
+            font-size: 14px;
+            color: var(--silver);
+            font-weight: 300;
+            line-height: 1.8;
+        }
+        .card-about em { 
+            color: var(--gold); 
+            font-style: normal; 
+            font-weight: 500;
+            text-shadow: 0 0 20px rgba(245,215,66,0.1);
+        }
+        .card-about .highlight {
+            display: inline-block;
+            background: rgba(245,215,66,0.08);
+            padding: 0 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(245,215,66,0.1);
+        }
+        
+        /* ===== SKILLS ===== */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        .skill-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 8px;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: default;
+            opacity: 0;
+            transform: scale(0.9) translateY(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        .skill-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(245,215,66,0.05), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .skill-item.animate-in {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        .skill-item:hover {
+            border-color: var(--gold);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+        .skill-item:hover::before {
+            opacity: 1;
+        }
+        .skill-item .skill-icon {
+            width: 28px; height: 28px;
+            margin: 0 auto 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .skill-item .skill-icon svg {
+            width: 22px; height: 22px;
+            stroke: var(--gold);
+            fill: none;
+            stroke-width: 1.5;
+            opacity: 0.6;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .skill-item:hover .skill-icon svg {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        .skill-item .skill-name {
+            font-size: 10px;
+            color: var(--silver);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: color 0.3s;
+        }
+        .skill-item:hover .skill-name {
+            color: var(--gold);
+        }
+        
+        .skills-grid .skill-item:nth-child(1) { transition-delay: 0s; }
+        .skills-grid .skill-item:nth-child(2) { transition-delay: 0.04s; }
+        .skills-grid .skill-item:nth-child(3) { transition-delay: 0.08s; }
+        .skills-grid .skill-item:nth-child(4) { transition-delay: 0.12s; }
+        .skills-grid .skill-item:nth-child(5) { transition-delay: 0.16s; }
+        .skills-grid .skill-item:nth-child(6) { transition-delay: 0.20s; }
+        .skills-grid .skill-item:nth-child(7) { transition-delay: 0.24s; }
+        .skills-grid .skill-item:nth-child(8) { transition-delay: 0.28s; }
+        .skills-grid .skill-item:nth-child(9) { transition-delay: 0.32s; }
+        
+        /* ===== PROJECTS ===== */
+        .projects-stack { position: relative; }
+        .projects-stack::before {
+            content: '';
+            position: absolute;
+            left: 8px; top: 4px; bottom: 4px;
+            width: 1.5px;
+            background: linear-gradient(180deg, var(--gold), transparent);
+            opacity: 0.3;
+            border-radius: 2px;
+        }
+        .proj-item {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 14px;
+            opacity: 0;
+            transform: translateX(-15px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .proj-item.animate-in {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .proj-item:nth-child(1) { transition-delay: 0s; }
+        .proj-item:nth-child(2) { transition-delay: 0.08s; }
+        .proj-item:nth-child(3) { transition-delay: 0.16s; }
+        .proj-item:nth-child(4) { transition-delay: 0.24s; }
+        
+        .proj-dot {
+            position: absolute;
+            left: 3px; top: 8px;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--gold);
+            box-shadow: 0 0 20px rgba(245,215,66,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .proj-item:hover .proj-dot {
+            transform: scale(1.4);
+            box-shadow: 0 0 30px rgba(245,215,66,0.5);
+        }
+        .proj-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.4s ease;
+            cursor: default;
+        }
+        .proj-card:hover {
+            border-color: rgba(245,215,66,0.2);
+            transform: translateX(4px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .proj-card h3 { 
+            font-size: 13px; 
+            font-weight: 600; 
+            color: var(--gold); 
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+        .proj-card p { 
+            font-size: 12px; 
+            color: var(--muted); 
+            margin-bottom: 6px; 
+            line-height: 1.5; 
+            font-weight: 300;
+        }
+        .proj-card .proj-tags {
+            font-size: 9px;
+            color: var(--muted);
+            letter-spacing: 1px;
+            opacity: 0.5;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            font-weight: 400;
+        }
+        .proj-card .proj-tags span {
+            background: rgba(245,215,66,0.05);
+            padding: 2px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(245,215,66,0.05);
+        }
+        
+        /* ===== CONNECT ===== */
+        .links-row { 
+            display: flex; 
+            gap: 10px;
+        }
+        .link-card {
+            flex: 1;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 8px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--silver);
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s, background 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .link-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(245,215,66,0.05), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .link-card.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .link-card:nth-child(1) { transition-delay: 0s; }
+        .link-card:nth-child(2) { transition-delay: 0.08s; }
+        .link-card:nth-child(3) { transition-delay: 0.16s; }
+        
+        .link-card:hover {
+            border-color: var(--gold);
+            background: rgba(20,20,20,0.9);
+            color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        .link-card:hover::before {
+            opacity: 1;
+        }
+        .link-card .link-icon {
+            width: 24px; height: 24px;
+            margin: 0 auto 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .link-card .link-icon svg {
+            width: 20px; height: 20px;
+            stroke: var(--muted);
+            fill: none;
+            stroke-width: 1.5;
+            transition: stroke 0.3s;
+        }
+        .link-card:hover .link-icon svg { stroke: var(--gold); }
+        
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            color: var(--muted);
+            font-size: 10px;
+            padding-top: 28px;
+            letter-spacing: 3px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
+            border-top: 1px solid var(--border);
+            margin-top: 8px;
+            padding-bottom: 8px;
+        }
+        .footer.animate-in {
+            opacity: 0.4;
+            transform: translateY(0);
+        }
+        .footer span {
+            color: var(--gold);
+            opacity: 0.5;
+        }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 380px) {
+            #main-content { padding: 12px 10px 30px; }
+            .skills-grid { grid-template-columns: repeat(2, 1fr); }
+            .start-card { width: 260px; padding: 28px 20px; }
+            .start-card .logo { font-size: 40px; }
+            .banner { aspect-ratio: 1/1; }
+        }
+        
+        @media (min-width: 481px) {
+            body { 
+                max-width: 520px;
+                padding: 0 20px;
+            }
+            #main-content { padding: 30px 0 50px; }
+            .banner-wrap { margin-bottom: 32px; }
+            .banner { aspect-ratio: 16/9; }
+            .skills-grid { gap: 12px; }
+        }
+        
+        audio { display: none; }
+    </style>
+</head>
+<body>
+
+<!-- ===== START SCREEN ===== -->
+<div id="start-screen">
+    <div class="start-card">
+        <div class="logo">✦</div>
+        <div style="font-size:22px;font-weight:300;color:var(--gold);letter-spacing:8px;margin:-8px 0 4px;">ARMIN</div>
+        <div class="sub">// build your Dreams</div>
+        <button class="start-btn" id="startBtn">ENTER</button>
+        <div class="start-hint">
+            <span>$</span> ./launch --mode=full
+        </div>
+    </div>
+</div>
+
+<!-- ===== BOOT SCREEN ===== -->
+<div id="boot-screen">
+    <div class="boot-content">
+        <div class="line"><span class="prompt">$</span> initializing OG system...</div>
+        <div class="line">[OK] Loading core modules</div>
+        <div class="line">[OK] Establishing secure connection</div>
+        <div class="line">[READY] Environment ready.</div>
+        <div class="line" style="margin-top:8px;"><span class="prompt">$</span> whoami</div>
+        <div class="line">Armin-OG :: developer &amp; editor<span class="cursor">█</span></div>
+    </div>
+</div>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div id="main-content">
+    
+    <!-- Banner -->
+    <div class="banner-wrap">
+        <img class="banner" src="Armin.jpg" alt="Armin" loading="lazy">
+    </div>
+    
+    <div class="hero-tagline">Armin <span>·</span> Developer <span>·</span> Editor <span>·</span> 15</div>
+
+    <!-- About -->
+    <div class="section">
+        <div class="section-title">About</div>
+        <div class="card-about">
+            <p>Self-taught developer from Iran. I build <em>things nobody has built before</em>. Messengers, <span class="highlight">3D games</span>, bots, and tools that push the boundaries of what's possible.</p>
+        </div>
+    </div>
+
+    <!-- Stack -->
+    <div class="section">
+        <div class="section-title">Stack</div>
+        <div class="skills-grid">
+            <div class="skill-item">
+                <div class="skill-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+                <div class="skill-name">Python</div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="12" y1="8" x2="12" y2="16"/></svg></div>
+                <div class="skill-name">Java</div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg></div>
+                <div class="skill-name">AI</div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-icon"><svg viewBox="0 0 24 24"><polygon points="12,2 22,8.5 22,15.5 12,22 2,15.5 2,8.5"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22,8.5 12,15.5 2,8.5"/></svg></div>
+                <div class="skill-name">HTML/CSS</div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="6" y1="8" x2="18" y2="8"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="6" y1="16" x2="14" y2="16"/></svg></div>
+                <div class="skill-name">JS</div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20"/><line x1="2" y1="12" x2="22" y2="12"/></svg></div>
+                <div class="skill-name">Security</div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-icon"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polygon points="10,8 16,12 10,16"/></svg></div>
+                <div class="skill-name">Editing</div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="4,8 12,12 12,20 4,16"/><polygon points="12,12 20,8 20,16 12,20"/><polygon points="4,8 12,4 20,8 12,12"/></svg></div>
+                <div class="skill-name">MC Dev</div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-icon"><svg viewBox="0 0 24 24"><polyline points="4,17 8,13 12,17 20,9"/><line x1="20" y1="9" x2="20" y2="17"/><line x1="4" y1="9" x2="4" y2="17"/></svg></div>
+                <div class="skill-name">UI/UX</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects -->
+    <div class="section">
+        <div class="section-title">Projects</div>
+        <div class="projects-stack">
+            <div class="proj-item">
+                <div class="proj-dot"></div>
+                <div class="proj-card">
+                    <h3>Web Security Tools</h3>
+                    <p>Full optional tools for checking your web site security.</p>
+                    <div class="proj-tags"><span>Python</span><span>WebSocket</span></div>
+                </div>
+            </div>
+            <div class="proj-item">
+                <div class="proj-dot"></div>
+                <div class="proj-card">
+                    <h3>Python Applications</h3>
+                    <p>Custom apps for your business with Python.</p>
+                    <div class="proj-tags"><span>Python</span><span>GUI</span></div>
+                </div>
+            </div>
+            <div class="proj-item">
+                <div class="proj-dot"></div>
+                <div class="proj-card">
+                    <h3>Bot &amp; Automation</h3>
+                    <p>Custom bots with thousands of active users.</p>
+                    <div class="proj-tags"><span>Python</span><span>API</span></div>
+                </div>
+            </div>
+            <div class="proj-item">
+                <div class="proj-dot"></div>
+                <div class="proj-card">
+                    <h3>Android &amp; Web Apps</h3>
+                    <p>Clean, minimal apps designed for real needs.</p>
+                    <div class="proj-tags"><span>Java</span><span>HTML/CSS</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Connect -->
+    <div class="section">
+        <div class="section-title">Connect</div>
+        <div class="links-row">
+            <a href="https://rubika.ir/Armin021l" class="link-card" target="_blank" rel="noopener">
+                <div class="link-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-7 8-7s8 3 8 7"/></svg></div>
+                Rubika
+            </a>
+            <a href="https://t.me/ArminOG0" class="link-card" target="_blank" rel="noopener">
+                <div class="link-icon"><svg viewBox="0 0 24 24"><path d="M21 3L3 10l6 3 4-5 3 7 5-12z"/></svg></div>
+                Telegram
+            </a>
+            <a href="#" class="link-card" target="_blank" rel="noopener">
+                <div class="link-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg></div>
+                GitHub
+            </a>
+        </div>
+    </div>
+
+    <div class="footer">Armin <span>✦</span> 2025 <span>✦</span> make your Dreams</div>
+
+</div>
+
+<audio id="bg-music" loop preload="auto">
+    <source src="Ten.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    const startScreen = document.getElementById('start-screen');
+    const bootScreen = document.getElementById('boot-screen');
+    const mainContent = document.getElementById('main-content');
+    const startBtn = document.getElementById('startBtn');
+    const bgMusic = document.getElementById('bg-music');
+
+    let bootTimeout = null;
+
+    function resetBootScreen() {
+        if (bootTimeout) clearTimeout(bootTimeout);
+        bootScreen.classList.remove('active');
+        const lines = bootScreen.querySelectorAll('.line');
+        lines.forEach(line => {
+            line.style.animation = 'none';
+            line.offsetHeight;
+            line.style.animation = null;
+        });
+    }
+
+    function startSequence() {
+        resetBootScreen();
+        
+        bgMusic.pause();
+        bgMusic.currentTime = 27.8;
+        bgMusic.play().catch(() => {});
+        
+        startScreen.classList.add('hidden');
+        bootScreen.classList.add('active');
+        
+        bootTimeout = setTimeout(() => {
+            bootScreen.classList.remove('active');
+            mainContent.classList.add('visible');
+            
+            document.querySelectorAll('.banner-wrap, .hero-tagline, .section, .skill-item, .proj-item, .link-card, .footer').forEach(el => {
+                el.classList.add('animate-in');
+            });
+        }, 5000);
+    }
+
+    startBtn.addEventListener('click', startSequence);
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !startScreen.classList.contains('hidden')) {
+            startSequence();
+        }
+    });
+</script>
+</body>
+</html>
