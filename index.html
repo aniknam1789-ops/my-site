@@ -55,267 +55,7 @@
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 4px; }
         
-        /* ===== ROOT / START TERMINAL — PREMIUM OG INTERFACE ===== */
-        #start-screen {
-            isolation: isolate;
-            overflow: hidden;
-            background:
-                radial-gradient(ellipse at 50% 42%, rgba(245,215,66,.075), transparent 42%),
-                linear-gradient(145deg, #080808 0%, #0d0d0c 48%, #070707 100%);
-        }
-        #start-screen::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            z-index: -1;
-            opacity: .22;
-            background-image:
-                linear-gradient(rgba(245,215,66,.055) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(245,215,66,.055) 1px, transparent 1px);
-            background-size: 46px 46px;
-            mask-image: radial-gradient(ellipse at center, #000 8%, transparent 76%);
-        }
-        #start-screen::after {
-            content: "";
-            position: absolute;
-            width: min(76vw, 560px);
-            aspect-ratio: 1;
-            border: 1px solid rgba(245,215,66,.10);
-            border-radius: 50%;
-            box-shadow: 0 0 0 34px rgba(245,215,66,.018), 0 0 0 70px rgba(245,215,66,.012);
-            z-index: -1;
-            pointer-events: none;
-        }
-        .start-card {
-            width: min(390px, calc(100vw - 36px));
-            padding: 0;
-            text-align: left;
-            border: 1px solid rgba(245,215,66,.22);
-            border-radius: 18px;
-            background: linear-gradient(155deg, rgba(24,24,21,.97), rgba(11,11,10,.98) 72%);
-            box-shadow: 0 30px 100px rgba(0,0,0,.78), 0 0 55px rgba(245,215,66,.055), inset 0 1px rgba(255,255,255,.035);
-            overflow: hidden;
-            animation: fadeInUp .8s cubic-bezier(.2,.75,.25,1);
-        }
-        .start-card::before {
-            content: "";
-            position: absolute;
-            inset: 0 0 auto;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold), rgba(245,215,66,.25), transparent);
-            pointer-events: none;
-        }
-        .start-topbar {
-            height: 43px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 17px;
-            border-bottom: 1px solid rgba(255,255,255,.055);
-            color: #777365;
-            font: 9px 'JetBrains Mono', monospace;
-            letter-spacing: 1.5px;
-        }
-        .window-dots { display: flex; gap: 6px; align-items: center; }
-        .window-dots i { width: 6px; height: 6px; border-radius: 50%; background: #514b32; }
-        .window-dots i:first-child { background: var(--gold); box-shadow: 0 0 8px rgba(245,215,66,.45); }
-        .start-main { padding: 29px 28px 25px; }
-        .start-eyebrow {
-            color: var(--gold-dim);
-            font: 9px 'JetBrains Mono', monospace;
-            letter-spacing: 2.8px;
-            margin-bottom: 18px;
-        }
-        .start-brand {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 7px;
-        }
-        .start-card .logo {
-            width: 49px;
-            height: 49px;
-            display: grid;
-            place-items: center;
-            margin: 0;
-            border: 1px solid rgba(245,215,66,.32);
-            border-radius: 13px;
-            background: rgba(245,215,66,.055);
-            font-size: 27px;
-            letter-spacing: 0;
-            text-shadow: 0 0 24px rgba(245,215,66,.35);
-        }
-        .start-name {
-            color: var(--cream);
-            font: 500 27px 'JetBrains Mono', monospace;
-            letter-spacing: 5px;
-            line-height: 1.2;
-        }
-        .start-subtitle {
-            color: #77746a;
-            font: 9px 'JetBrains Mono', monospace;
-            letter-spacing: 2px;
-            margin: 5px 0 25px 64px;
-        }
-        .start-divider {
-            height: 1px;
-            background: linear-gradient(90deg, rgba(245,215,66,.28), rgba(255,255,255,.04), transparent);
-            margin-bottom: 20px;
-        }
-        .start-command {
-            color: #8d897a;
-            font: 11px 'JetBrains Mono', monospace;
-            margin-bottom: 19px;
-            line-height: 1.9;
-        }
-        .start-command strong { color: var(--gold); font-weight: 500; }
-        .start-btn {
-            width: 100%;
-            min-height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 17px;
-            border: 1px solid rgba(245,215,66,.55);
-            border-radius: 9px;
-            background: linear-gradient(100deg, rgba(245,215,66,.14), rgba(245,215,66,.045));
-            color: var(--gold);
-            font: 500 11px 'JetBrains Mono', monospace;
-            letter-spacing: 2.5px;
-            cursor: pointer;
-            transition: .3s ease;
-        }
-        .start-btn::before { display: none; }
-        .start-btn:hover {
-            color: #111;
-            background: var(--gold);
-            box-shadow: 0 0 30px rgba(245,215,66,.18);
-            transform: translateY(-2px);
-        }
-        .start-btn .btn-arrow { font-size: 17px; transition: transform .3s; }
-        .start-btn:hover .btn-arrow { transform: translateX(4px); }
-        .start-bottom {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            padding: 13px 28px;
-            border-top: 1px solid rgba(255,255,255,.055);
-            background: rgba(0,0,0,.18);
-            color: #565348;
-            font: 8px 'JetBrains Mono', monospace;
-            letter-spacing: 1px;
-        }
-        .start-bottom span:last-child { color: #8b7a36; }
-
-        /* ===== BOOT CONSOLE ===== */
-        #boot-screen {
-            isolation: isolate;
-            overflow: hidden;
-            background:
-                radial-gradient(ellipse at 50% 48%, rgba(245,215,66,.055), transparent 58%),
-                #080808;
-            color: #aaa58f;
-            font-family: 'JetBrains Mono', monospace;
-        }
-        #boot-screen::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            z-index: -1;
-            opacity: .15;
-            background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(255,255,255,.035) 4px);
-            pointer-events: none;
-        }
-        .boot-window {
-            width: min(540px, calc(100vw - 34px));
-            border: 1px solid rgba(245,215,66,.2);
-            border-radius: 14px;
-            overflow: hidden;
-            background: rgba(12,12,11,.94);
-            box-shadow: 0 30px 100px rgba(0,0,0,.75), 0 0 55px rgba(245,215,66,.045);
-        }
-        .boot-titlebar {
-            min-height: 43px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 15px;
-            border-bottom: 1px solid rgba(255,255,255,.06);
-            background: rgba(255,255,255,.018);
-            font-size: 9px;
-            letter-spacing: 1.5px;
-        }
-        .boot-titlebar .title { color: #b6ad8b; }
-        .boot-titlebar .secure { color: #9b8a42; font-size: 8px; }
-        .boot-content {
-            min-width: 0 !important;
-            padding: 24px 22px 20px;
-            text-align: left;
-        }
-        .boot-label {
-            color: #5f5b4d;
-            font-size: 9px;
-            letter-spacing: 2px;
-            margin-bottom: 17px;
-        }
-        #boot-screen .line {
-            display: flex;
-            align-items: baseline;
-            gap: 10px;
-            margin: 9px 0;
-            color: #8c897d;
-            font-size: 11px;
-            line-height: 1.7;
-            opacity: 0;
-            animation: bootLine .5s ease forwards;
-        }
-        #boot-screen .line::before {
-            content: "›";
-            color: #75672f;
-            font-size: 14px;
-        }
-        #boot-screen .line:nth-child(1) { animation-delay: .2s; }
-        #boot-screen .line:nth-child(2) { animation-delay: .65s; }
-        #boot-screen .line:nth-child(3) { animation-delay: 1.1s; }
-        #boot-screen .line:nth-child(4) { animation-delay: 1.6s; color: var(--gold); }
-        #boot-screen .line:nth-child(5) { animation-delay: 2.05s; margin-top: 19px; }
-        #boot-screen .line:nth-child(6) { animation-delay: 2.5s; color: var(--cream); }
-        #boot-screen .prompt { color: var(--gold); opacity: .9; }
-        #boot-screen .cursor { color: var(--gold); animation: blink 1s infinite; }
-        .boot-progress {
-            height: 2px;
-            margin: 17px 22px 0;
-            background: #25241e;
-            overflow: hidden;
-        }
-        .boot-progress span {
-            display: block;
-            height: 100%;
-            width: 0;
-            background: linear-gradient(90deg, #8e7622, var(--gold));
-            box-shadow: 0 0 12px rgba(245,215,66,.5);
-            animation: bootProgress 3.4s ease forwards;
-        }
-        @keyframes bootProgress { to { width: 100%; } }
-        .boot-statusbar {
-            display: flex;
-            justify-content: space-between;
-            padding: 13px 22px 15px;
-            color: #555247;
-            font-size: 8px;
-            letter-spacing: 1px;
-        }
-        .boot-statusbar strong { color: #9a873c; font-weight: 400; }
-
-        @media (max-width: 380px) {
-            .start-main { padding: 25px 20px 21px; }
-            .start-bottom { padding-inline: 20px; }
-            .start-name { font-size: 23px; }
-            .boot-content { padding: 20px 16px 16px; }
-            #boot-screen .line { font-size: 10px; }
-        }
-
-        /* ===== ORIGINAL START / BOOT RULES ===== */
+        /* ===== START SCREEN ===== */
         #start-screen {
             position: fixed;
             top: 0; left: 0;
@@ -882,6 +622,117 @@
         }
         
         audio { display: none; }
+    
+
+        /* ===== OG START + CONSOLE: isolated visual layer ===== */
+        #start-screen {
+            isolation: isolate;
+            overflow: hidden;
+            background: radial-gradient(ellipse at 50% 45%, rgba(245,215,66,.065), transparent 43%), #090909;
+        }
+        #start-screen::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            opacity: .17;
+            background-image: linear-gradient(rgba(245,215,66,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(245,215,66,.07) 1px, transparent 1px);
+            background-size: 42px 42px;
+            mask-image: radial-gradient(ellipse at center, #000, transparent 75%);
+        }
+        #start-screen .start-card {
+            width: min(370px, calc(100vw - 36px));
+            padding: 0;
+            text-align: left;
+            border: 1px solid rgba(245,215,66,.22);
+            border-radius: 15px;
+            background: linear-gradient(145deg, #171713, #0d0d0c 72%);
+            box-shadow: 0 26px 85px rgba(0,0,0,.72), 0 0 45px rgba(245,215,66,.045);
+        }
+        #start-screen .start-card::before { display: none; }
+        .og-windowbar {
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 17px;
+            border-bottom: 1px solid rgba(255,255,255,.065);
+            color: #777365;
+            font: 9px 'JetBrains Mono', monospace;
+            letter-spacing: 1.2px;
+        }
+        .og-window-dots { display: flex; gap: 6px; }
+        .og-window-dots i { width: 6px; height: 6px; border-radius: 50%; background: #4c4837; }
+        .og-window-dots i:first-child { background: var(--gold); box-shadow: 0 0 7px rgba(245,215,66,.4); }
+        .og-version { color: #514e43; }
+        .og-start-body { padding: 28px 27px 24px; }
+        .og-kicker { color: var(--gold-dim); font: 9px 'JetBrains Mono', monospace; letter-spacing: 2px; margin-bottom: 18px; }
+        .og-brand-row { display: flex; align-items: center; gap: 14px; }
+        .og-mark {
+            width: 47px; height: 47px; display: grid; place-items: center;
+            border: 1px solid rgba(245,215,66,.3); border-radius: 11px;
+            background: rgba(245,215,66,.055); color: var(--gold); font-size: 25px;
+            text-shadow: 0 0 20px rgba(245,215,66,.28);
+        }
+        .og-brand-name { color: var(--cream); font: 500 27px 'JetBrains Mono', monospace; letter-spacing: 5px; }
+        .og-role { margin: 7px 0 23px 61px; color: #777366; font: 9px 'JetBrains Mono', monospace; letter-spacing: 2px; }
+        .og-role b { color: var(--gold); font-weight: 400; }
+        .og-rule { height: 1px; margin-bottom: 18px; background: linear-gradient(90deg, rgba(245,215,66,.3), rgba(255,255,255,.045), transparent); }
+        .og-terminal-line { margin-bottom: 19px; color: #8d897b; font: 10px 'JetBrains Mono', monospace; overflow-wrap: anywhere; }
+        .og-terminal-line span { color: var(--gold); }
+        #start-screen .start-btn {
+            position: relative; z-index: 0; width: 100%; min-height: 46px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 15px; border: 1px solid rgba(245,215,66,.48); border-radius: 8px;
+            background: rgba(245,215,66,.075); color: var(--gold);
+            font: 500 10px 'JetBrains Mono', monospace; letter-spacing: 2px;
+            cursor: pointer; transition: background .25s ease, color .25s ease, box-shadow .25s ease, transform .25s ease;
+        }
+        #start-screen .start-btn::before { display: none; }
+        #start-screen .start-btn:hover { color: #0a0a0a; background: var(--gold); box-shadow: 0 0 24px rgba(245,215,66,.16); transform: translateY(-1px); }
+        .og-enter-arrow { font-size: 16px; transition: transform .25s ease; }
+        #start-screen .start-btn:hover .og-enter-arrow { transform: translate(2px,-2px); }
+        .og-start-footer { display: flex; justify-content: space-between; gap: 8px; padding: 12px 18px; border-top: 1px solid rgba(255,255,255,.055); color: #5d594d; font: 8px 'JetBrains Mono', monospace; letter-spacing: .7px; }
+        .og-start-footer b { color: #a18c3b; font-weight: 400; }
+        .og-start-footer i, .og-console-live i { display: inline-block; width: 5px; height: 5px; margin-right: 5px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 7px rgba(245,215,66,.5); vertical-align: 1px; }
+
+        #boot-screen { isolation: isolate; overflow: hidden; padding: 18px; background: radial-gradient(ellipse at 50% 48%, rgba(245,215,66,.045), transparent 58%), #080808; }
+        #boot-screen::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .12; background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(255,255,255,.035) 4px); }
+        .og-console { width: min(530px, 100%); overflow: hidden; border: 1px solid rgba(245,215,66,.2); border-radius: 12px; background: rgba(13,13,12,.97); box-shadow: 0 28px 90px rgba(0,0,0,.75), 0 0 48px rgba(245,215,66,.04); }
+        .og-console-head { min-height: 43px; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 16px; border-bottom: 1px solid rgba(255,255,255,.06); color: #b4aa86; font: 9px 'JetBrains Mono', monospace; letter-spacing: 1px; }
+        .og-console-live { color: #77715e; font-size: 8px; white-space: nowrap; }
+        .og-console-body { padding: 22px 22px 13px; text-align: left; }
+        .og-console-caption { margin-bottom: 17px; color: #5e5a4d; font: 9px 'JetBrains Mono', monospace; letter-spacing: 1.7px; }
+        .og-console-caption span { color: var(--gold-dim); }
+        #boot-screen .line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin: 9px 0; color: #aaa58f; font: 10px/1.7 'JetBrains Mono', monospace; opacity: 0; animation: bootLine .5s ease forwards; }
+        #boot-screen .line:nth-child(2) { animation-delay: .2s; }
+        #boot-screen .line:nth-child(3) { animation-delay: .6s; }
+        #boot-screen .line:nth-child(4) { animation-delay: 1s; }
+        #boot-screen .line:nth-child(5) { animation-delay: 1.5s; }
+        #boot-screen .line:nth-child(6) { animation-delay: 2s; margin-top: 17px; }
+        #boot-screen .line:nth-child(7) { animation-delay: 2.5s; color: var(--cream); }
+        #boot-screen .prompt, #boot-screen .og-ready { color: var(--gold); }
+        #boot-screen .og-ok { color: #8c9870; }
+        #boot-screen .cursor { color: var(--gold); animation: blink 1s infinite; }
+        .og-console-progress { height: 2px; margin: 4px 22px 0; overflow: hidden; background: #29271e; }
+        .og-console-progress span { display: block; width: 0; height: 100%; background: linear-gradient(90deg, #8d7626, var(--gold)); box-shadow: 0 0 10px rgba(245,215,66,.45); animation: ogProgress 3.5s ease forwards; }
+        @keyframes ogProgress { to { width: 100%; } }
+        .og-console-foot { display: flex; justify-content: space-between; padding: 12px 22px 14px; color: #5d594d; font: 8px 'JetBrains Mono', monospace; letter-spacing: 1px; }
+        .og-console-foot b { color: #a18c3b; font-weight: 400; }
+        @media (max-width: 380px) {
+            #start-screen .start-card { width: calc(100vw - 28px); }
+            .og-start-body { padding: 24px 19px 20px; }
+            .og-brand-name { font-size: 24px; }
+            .og-start-footer { padding-inline: 13px; font-size: 7px; }
+            .og-console-body { padding: 19px 15px 12px; }
+            #boot-screen .line { font-size: 9px; }
+            .og-console-foot { padding-inline: 15px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            #start-screen *, #boot-screen * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+        }
+
     </style>
 </head>
 <body>
@@ -889,52 +740,44 @@
 <!-- ===== START SCREEN ===== -->
 <div id="start-screen">
     <div class="start-card">
-        <div class="start-topbar">
-            <div class="window-dots"><i></i><i></i><i></i></div>
-            <span>OG INTERFACE / 01</span>
-            <span>v1.0</span>
+        <div class="og-windowbar">
+            <span class="og-window-dots"><i></i><i></i><i></i></span>
+            <span>ARMIN · OG SYSTEM</span>
+            <span class="og-version">01 / 01</span>
         </div>
-        <div class="start-main">
-            <div class="start-eyebrow">PERSONAL DEVELOPER PORTFOLIO</div>
-            <div class="start-brand">
-                <div class="logo">✦</div>
-                <div class="start-name">ARMIN</div>
+        <div class="og-start-body">
+            <div class="og-kicker">PERSONAL DEVELOPER PORTFOLIO</div>
+            <div class="og-brand-row">
+                <span class="og-mark">✦</span>
+                <span class="og-brand-name">ARMIN</span>
             </div>
-            <div class="start-subtitle">DEVELOPER <span style="color:var(--gold)">·</span> EDITOR</div>
-            <div class="start-divider"></div>
-            <div class="start-command"><strong>root@armin</strong>:~$ ./initialize.sh<br><span style="color:#5e5a4d">// build your Dreams</span></div>
-            <button class="start-btn" id="startBtn">
-                <span>INITIALIZE SYSTEM</span><span class="btn-arrow">↗</span>
-            </button>
+            <div class="og-role">DEVELOPER <b>·</b> EDITOR</div>
+            <div class="og-rule"></div>
+            <div class="og-terminal-line"><span>root@armin</span>:~$ ./launch --mode=full</div>
+            <button class="start-btn" id="startBtn"><span>ENTER SYSTEM</span><span class="og-enter-arrow">↗</span></button>
         </div>
-        <div class="start-bottom">
-            <span>STATUS: STANDBY</span>
-            <span>● ALL SYSTEMS READY</span>
-        </div>
+        <div class="og-start-footer"><span>STATUS <b>STANDBY</b></span><span><i></i> READY TO INITIALIZE</span></div>
     </div>
 </div>
 
 <!-- ===== BOOT SCREEN ===== -->
 <div id="boot-screen">
-    <div class="boot-window">
-        <div class="boot-titlebar">
-            <span class="title">✦ &nbsp; ARMIN / SYSTEM CONSOLE</span>
-            <span class="secure">● ENCRYPTED SESSION</span>
+    <div class="og-console">
+        <div class="og-console-head">
+            <span>✦ &nbsp; ARMIN / ROOT CONSOLE</span>
+            <span class="og-console-live"><i></i> LIVE SESSION</span>
         </div>
-        <div class="boot-content">
-            <div class="boot-label">BOOT SEQUENCE // ROOT ACCESS</div>
+        <div class="og-console-body">
+            <div class="og-console-caption">BOOT SEQUENCE <span>//</span> INITIALIZING</div>
             <div class="line"><span class="prompt">root@armin:~$</span> initializing OG system...</div>
-            <div class="line">[ OK ] Loading core modules</div>
-            <div class="line">[ OK ] Establishing secure connection</div>
-            <div class="line">[ READY ] Environment ready.</div>
+            <div class="line"><span class="og-ok">[ OK ]</span> Loading core modules</div>
+            <div class="line"><span class="og-ok">[ OK ]</span> Establishing secure connection</div>
+            <div class="line"><span class="og-ready">[ READY ]</span> Environment ready.</div>
             <div class="line"><span class="prompt">root@armin:~$</span> whoami</div>
             <div class="line">Armin-OG :: developer &amp; editor<span class="cursor">█</span></div>
         </div>
-        <div class="boot-progress"><span></span></div>
-        <div class="boot-statusbar">
-            <span>CORE INITIALIZATION</span>
-            <strong>ACCESS GRANTED</strong>
-        </div>
+        <div class="og-console-progress"><span></span></div>
+        <div class="og-console-foot"><span>CORE INITIALIZATION</span><b>ACCESS GRANTED</b></div>
     </div>
 </div>
 
